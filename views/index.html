@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oki Doki - Calzado en Cuero</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <span>ENVÍO GRATIS EN COMPRAS MAYORES DE $100 | 15% OFF EN TU PRIMERA COMPRA</span>
+        </div>
+        <div class="main-header">
+            <div class="logo">
+                <a href="/">
+                    <h1>OKI DOKI</h1>
+                    <span>CALZADO EN CUERO</span>
+                </a>
+            </div>
+            <div class="search-bar">
+                <form id="search-form">
+                    <input type="text" placeholder="Buscar productos..." id="search-input">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <div class="nav-icons">
+                <a href="#" id="login-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </a>
+                <a href="/carrito">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/>
+                        <circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="#categorias">Categorías</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="/nosotros">Quiénes Somos</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>OKI DOKI</h1>
+            <h2>CALZADO EN CUERO</h2>
+            <p>Moda, elegancia y comodidad en cada paso.</p>
+            <a href="#productos" class="btn">Comprar Ahora</a>
+        </div>
+    </section>
+
+    <section class="section" id="categorias">
+        <div class="section-title">
+            <h2>Categorías</h2>
+            <div class="line"></div>
+            <p>Descubre nuestra colección</p>
+        </div>
+        <div class="categories-grid">
+            <div class="category-card" onclick="filtrarPorCategoria('zapatos')">
+                <div class="category-content">
+                    <h3>Zapatos para Dama</h3>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+            <div class="category-card" onclick="filtrarPorCategoria('bolsos')">
+                <div class="category-content">
+                    <h3>Bolsos de Mano</h3>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+            <div class="category-card" onclick="filtrarPorCategoria('sandalias')">
+                <div class="category-content">
+                    <h3>Sandalias</h3>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+            <div class="category-card" onclick="filtrarPorCategoria('tenis')">
+                <div class="category-content">
+                    <h3>Tenis Casuales</h3>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+            <div class="category-card" onclick="filtrarPorCategoria('botas')">
+                <div class="category-content">
+                    <h3>Botas en Cuero</h3>
+                    <span class="arrow">&rarr;</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-light" id="productos">
+        <div class="section-title">
+            <h2>Productos Destacados</h2>
+            <div class="line"></div>
+            <p>Selección exclusiva para ti</p>
+        </div>
+        <div class="products-grid" id="products-container"></div>
+    </section>
+
+    <section class="section">
+        <div class="section-title">
+            <h2>Promociones</h2>
+            <div class="line"></div>
+            <p>Ofertas especiales por temporada</p>
+        </div>
+        <div class="promo-banner">
+            <div class="promo-card">
+                <div class="promo-content">
+                    <h3>Temporada</h3>
+                    <div class="discount">-20%</div>
+                    <h2>Verano 2026</h2>
+                    <p>Descuento especial en toda la colección de sandalias y calzado ligero.</p>
+                    <a href="#productos" class="btn btn-outline">Ver Oferta</a>
+                </div>
+            </div>
+            <div class="promo-card promo-dark">
+                <div class="promo-content">
+                    <h3>Combo Exclusivo</h3>
+                    <h2>Zapatos + Bolso</h2>
+                    <p>Compra un par de zapatos y un bolso, y obtén 15% de descuento adicional en ambos.</p>
+                    <a href="#productos" class="btn">Ver Combo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-light">
+        <div class="section-title">
+            <h2>Lo Que Dicen Nuestros Clientes</h2>
+            <div class="line"></div>
+            <p>Opiniones reales</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">Excelente calidad y comodidad. Los zapatos de tacón que compré son perfectos para usar todo el día sin dolor. Totalmente recomendado.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">M</div>
+                    <div class="author-info">
+                        <h4>María González</h4>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">El envío fue super rápido y los productos llegaron perfectamente empaquetados. El diseño es elegante y el material se siente de muy buena calidad.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">C</div>
+                    <div class="author-info">
+                        <h4>Carolina Martínez</h4>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">Ya es mi tercera compra en Oki Doki. Me encanta la variedad de estilos y siempre encuentro algo que me gusta. El servicio al cliente es excelente.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">A</div>
+                    <div class="author-info">
+                        <h4>Andrea López</h4>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h2>Suscríbete a Nuestro Newsletter</h2>
+            <p>Recibe ofertas exclusivas y novedades directamente en tu correo</p>
+            <form class="newsletter-form" id="newsletter-form">
+                <input type="email" placeholder="Ingresa tu correo electrónico" required>
+                <button type="submit">Suscribirse</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo-text">OKI DOKI</div>
+                <div class="logo-subtext">CALZADO EN CUERO</div>
+                <p>Moda, elegancia y comodidad en cada paso. Calzado y accesorios de cuero para la mujer moderna.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Instagram">In</a>
+                    <a href="#" aria-label="Twitter">X</a>
+                    <a href="#" aria-label="WhatsApp">W</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="/nosotros">Quiénes Somos</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Información</h3>
+                <ul>
+                    <li><a href="#">Políticas de Envío</a></li>
+                    <li><a href="#">Políticas de Devolución</a></li>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contacto</h3>
+                <p>📍 Av. Principal 123, Ciudad</p>
+                <p>📞 +54 11 1234-5678</p>
+                <p>✉️ info@okidoki.com.ar</p>
+                <p>Horario: Lun - Vie: 9:00 - 18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Oki Doki. Todos los derechos reservados.</p>
+            <div class="payment-methods">
+                <span>VISA</span>
+                <span>MASTERCARD</span>
+                <span>MERCADO PAGO</span>
+                <span>TRANSFERENCIA</span>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2>Iniciar Sesión</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Correo Electrónico</label>
+                    <input type="email" id="login-email" required placeholder="admin@okidoki.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" required placeholder="admin123">
+                </div>
+                <button type="submit" class="btn btn-block">Iniciar Sesión</button>
+            </form>
+            <p id="login-message" style="margin-top: 15px; text-align: center; font-size: 13px;"></p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

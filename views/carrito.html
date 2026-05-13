@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito - Oki Doki</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <span>ENVÍO GRATIS EN COMPRAS MAYORES DE $100</span>
+        </div>
+        <div class="main-header">
+            <div class="logo">
+                <a href="/">
+                    <h1>OKI DOKI</h1>
+                    <span>CALZADO EN CUERO</span>
+                </a>
+            </div>
+            <div class="search-bar">
+                <form>
+                    <input type="text" placeholder="Buscar productos...">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <div class="nav-icons">
+                <a href="/">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                </a>
+                <a href="/carrito">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"/>
+                        <circle cx="20" cy="21" r="1"/>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/#categorias">Categorías</a></li>
+                <li><a href="/#productos">Productos</a></li>
+                <li><a href="/nosotros">Quiénes Somos</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="cart-page">
+        <div class="section-title">
+            <h2>Tu Carrito</h2>
+            <div class="line"></div>
+            <p>Revisa tus productos</p>
+        </div>
+
+        <div class="cart-content">
+            <div class="cart-items-container">
+                <div class="cart-empty" id="cart-empty" style="display: none;">
+                    <div class="icon">🛒</div>
+                    <h3>Tu carrito está vacío</h3>
+                    <p>Parece que aún no has agregado ningún producto.</p>
+                    <a href="/#productos" class="btn">Seguir Comprando</a>
+                </div>
+
+                <div class="cart-items" id="cart-items-container">
+                    <div class="cart-header">
+                        <span>Producto</span>
+                        <span>Precio</span>
+                        <span>Cantidad</span>
+                        <span>Subtotal</span>
+                        <span></span>
+                    </div>
+                    <div id="cart-items-list"></div>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <h3>Resumen del Pedido</h3>
+                
+                <div class="cart-coupon">
+                    <form id="coupon-form">
+                        <input type="text" placeholder="Código de descuento" id="coupon-input">
+                        <button type="submit">Aplicar</button>
+                    </form>
+                </div>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="summary-subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Envío</span>
+                    <span id="summary-shipping">$0.00</span>
+                </div>
+                <div class="summary-row" id="summary-discount-row" style="display: none;">
+                    <span>Descuento</span>
+                    <span id="summary-discount">-$0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span id="summary-total">$0.00</span>
+                </div>
+
+                <button class="btn btn-block" id="checkout-btn" style="margin-top: 30px;">Proceder al Pago</button>
+                <a href="/#productos" class="btn btn-outline btn-block" style="margin-top: 15px; text-align: center;">Seguir Comprando</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo-text">OKI DOKI</div>
+                <div class="logo-subtext">CALZADO EN CUERO</div>
+                <p>Moda, elegancia y comodidad en cada paso.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/#productos">Productos</a></li>
+                    <li><a href="/nosotros">Quiénes Somos</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Información</h3>
+                <ul>
+                    <li><a href="#">Políticas de Envío</a></li>
+                    <li><a href="#">Políticas de Devolución</a></li>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contacto</h3>
+                <p>📍 Av. Principal 123</p>
+                <p>📞 +54 11 1234-5678</p>
+                <p>✉️ info@okidoki.com.ar</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Oki Doki. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
