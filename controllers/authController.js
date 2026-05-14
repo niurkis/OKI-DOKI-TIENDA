@@ -12,7 +12,14 @@ const AuthController = {
         });
       }
 
-      const usuario = await UsuarioModel.obtenerPorCredenciales(correo, password);
+      if (!/^\S+@\S+\.\S+$/.test(correo)) {
+        return res.status(400).json({
+          success: false,
+          mensaje: "Formato de correo inválido"
+        });
+      }
+
+      const usuario = await UsuarioModel.verificarCredenciales(correo, password);
 
       if (usuario) {
         res.json({

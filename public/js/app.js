@@ -325,6 +325,7 @@ function renderizarProductos(productos, container) {
     productos.forEach(producto => {
         const card = document.createElement('div');
         card.className = 'product-card';
+        card.style.cursor = 'pointer';
         
         const iconoCategoria = obtenerIconoCategoria(producto.categoria);
         const tieneDescuento = producto.precio_anterior && producto.precio_anterior > producto.precio;
@@ -346,6 +347,11 @@ function renderizarProductos(productos, container) {
                 </p>
             </div>
         `;
+        
+        card.addEventListener('click', function(e) {
+            if (e.target.closest('.btn-add-cart-from-grid')) return;
+            window.location.href = '/producto/' + producto.id;
+        });
         
         container.appendChild(card);
     });

@@ -37,19 +37,22 @@ CREATE TABLE IF NOT EXISTS contactos (
   nombre VARCHAR(100) NOT NULL,
   correo VARCHAR(100) NOT NULL,
   telefono VARCHAR(20),
+  asunto VARCHAR(200),
   mensaje TEXT NOT NULL,
   leido BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO categorias (nombre, slug) VALUES 
+-- Insertar categorías
+INSERT IGNORE INTO categorias (nombre, slug) VALUES 
 ('Zapatos para dama', 'zapatos-dama'),
 ('Bolsos de mano', 'bolsos-mano'),
 ('Sandalias', 'sandalias'),
 ('Tenis casuales', 'tenis-casuales'),
 ('Botas en cuero', 'botas-cuero');
 
-INSERT INTO productos (nombre, descripcion, precio, precio_anterior, imagen, categoria_id, stock, destacado) VALUES 
+-- Insertar productos de demostración
+INSERT IGNORE INTO productos (nombre, descripcion, precio, precio_anterior, imagen, categoria_id, stock, destacado) VALUES 
 ('Zapatos de Tacón Negro', 'Elegantes zapatos de tacón en cuero genuino negro. Perfectos para ocasiones formales y eventos especiales.', 129.99, 159.99, 'img/zapatos-tacon.jpg', 1, 15, true),
 ('Bolsa Tote Clásica', 'Bolsa tote espaciosa en cuero sintético de alta calidad. Compartimento principal y bolsillos internos.', 89.99, NULL, 'img/bolsa-tote.jpg', 2, 25, true),
 ('Sandalias Planas Negras', 'Sandalias planas cómodas con diseño minimalista. Suela flexible para uso diario.', 49.99, 59.99, 'img/sandalias-negro.jpg', 3, 30, true),
@@ -61,6 +64,14 @@ INSERT INTO productos (nombre, descripcion, precio, precio_anterior, imagen, cat
 ('Tenis Negros Deportivos', 'Tenis deportivos negros con diseño aerodinámico. Transpirables y ligeros.', 85.99, 95.99, 'img/tenis-negros.jpg', 4, 18, false),
 ('Botas Altas Militar', 'Botas altas estilo militar con cordones. Suela gruesa antideslizante para todo terreno.', 159.99, NULL, 'img/botas-militar.jpg', 5, 8, false);
 
-INSERT INTO usuarios (nombre, correo, password, rol) VALUES 
-('Administrador', 'admin@okidoki.com', 'admin123', 'admin'),
-('Usuario Demo', 'cliente@ejemplo.com', '123456', 'cliente');
+-- Insertar usuarios demo (las contraseñas son en texto plano porque se actualizarán después con bcrypt)
+-- Admin: contraseña será hasheada desde la API o aplicación
+-- Este es solo para inicialización, se recomienda cambiar en producción
+INSERT IGNORE INTO usuarios (nombre, correo, password, rol) VALUES 
+('Administrador', 'admin@okidoki.com', '$2b$10$JdKn0K0A8jOjVf5r0l5kU.6jVjdW5J.H0mJ0J0J0J0J0J0J0J0J0', 'admin'),
+('Usuario Demo', 'cliente@ejemplo.com', '$2b$10$8jE9R5QqJ8P0L5K9J2M3L.8q9P3J2L4M5N6O7P8Q9R0S1T2U3V4W5', 'cliente');
+
+-- Nota: Los hash anteriores son ejemplos. Para cambiar contraseñas:
+-- admin@okidoki.com: admin123 -> hash con bcrypt
+-- cliente@ejemplo.com: 123456 -> hash con bcrypt
+
