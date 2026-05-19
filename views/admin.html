@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Administrador - Oki Doki</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+    }
+
+    .btn-back {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-back:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-primary {
+      background-color: #28a745;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .btn-primary:hover {
+      background-color: #218838;
+    }
+
+    .btn-secondary {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 5px;
+    }
+
+    .btn-secondary:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .form-container h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #333;
+      border-bottom: 2px solid #28a745;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-row.full {
+      grid-template-columns: 1fr;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #28a745;
+      box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type="checkbox"] {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .products-table {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .products-table h2 {
+      font-size: 22px;
+      margin: 20px;
+      color: #333;
+      border-bottom: 2px solid #28a745;
+      padding-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background-color: #333;
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .price {
+      color: #28a745;
+      font-weight: 600;
+    }
+
+    .price-old {
+      color: #999;
+      text-decoration: line-through;
+      margin-right: 5px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 5px;
+    }
+
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      border: 1px solid #c3e6cb;
+    }
+
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      border: 1px solid #f5c6cb;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal.open {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .modal-content h3 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .btn-cancel {
+      background-color: #6c757d;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-cancel:hover {
+      background-color: #5a6268;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 13px;
+      }
+
+      td, th {
+        padding: 8px;
+      }
+
+      .btn-secondary, .btn-danger {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🏪 Panel Administrador - Oki Doki</h1>
+      <a href="/" class="btn-back">← Volver a la tienda</a>
+    </header>
+
+    <div id="message"></div>
+
+    <!-- FORMULARIO PARA CREAR/EDITAR PRODUCTO -->
+    <div class="form-container">
+      <h2>📝 <span id="form-title">Crear Nuevo Producto</span></h2>
+      <form id="producto-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre del Producto *</label>
+            <input type="text" id="nombre" required placeholder="Ej: Zapatos de Tacón Negro">
+          </div>
+          <div class="form-group">
+            <label for="categoria">Categoría *</label>
+            <select id="categoria" required></select>
+          </div>
+        </div>
+
+        <div class="form-row full">
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" placeholder="Descripción detallada del producto..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="precio">Precio Actual ($) *</label>
+            <input type="number" id="precio" step="0.01" min="0" required placeholder="129.99">
+          </div>
+          <div class="form-group">
+            <label for="precio_anterior">Precio Anterior ($)</label>
+            <input type="number" id="precio_anterior" step="0.01" min="0" placeholder="159.99">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="stock">Stock Disponible *</label>
+            <input type="number" id="stock" min="0" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="imagen">URL de la Imagen</label>
+            <input type="text" id="imagen" placeholder="img/producto.jpg">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group checkbox-group">
+            <input type="checkbox" id="destacado">
+            <label for="destacado" style="margin-bottom: 0;">⭐ Marcar como Producto Destacado</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <button type="submit" class="btn-primary">💾 Guardar Producto</button>
+          <button type="button" class="btn-primary" style="background-color: #6c757d;" id="btn-limpiar">🗑️ Limpiar Formulario</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- LISTA DE PRODUCTOS -->
+    <div class="products-table">
+      <h2>📦 Productos Registrados</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Destacado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="productos-tbody">
+          <tr>
+            <td colspan="7" style="text-align: center; color: #999;">Cargando productos...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MODAL PARA CONFIRMAR ELIMINACIÓN -->
+  <div id="delete-modal" class="modal">
+    <div class="modal-content">
+      <h3>⚠️ Confirmar Eliminación</h3>
+      <p id="delete-message">¿Está seguro de que desea eliminar este producto?</p>
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeDeleteModal()">Cancelar</button>
+        <button class="btn-danger" onclick="confirmarEliminar()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Verificar sesión admin
+    (function() {
+      const userData = localStorage.getItem('oki_user');
+      if (!userData) {
+        window.location.href = '/';
+        return;
+      }
+      try {
+        const user = JSON.parse(userData);
+        if (user.rol !== 'admin') {
+          window.location.href = '/';
+        }
+      } catch {
+        window.location.href = '/';
+      }
+    })();
+
+    let categorias = [];
+    let productos = [];
+    let productoEnEdicion = null;
+    let productoAEliminar = null;
+
+    // Cargar categorías
+    async function cargarCategorias() {
+      try {
+        const response = await fetch('/api/categorias');
+        const data = await response.json();
+        if (data.success && Array.isArray(data.data)) {
+          categorias = data.data;
+          const selectCategoria = document.getElementById('categoria');
+          selectCategoria.innerHTML = '<option value="">Seleccionar categoría...</option>';
+          categorias.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = cat.nombre;
+            selectCategoria.appendChild(option);
+          });
+        }
+      } catch (error) {
+        console.error('Error cargando categorías:', error);
+        mostrarMensaje('Error al cargar categorías', 'error');
+      }
+    }
+
+    // Cargar productos
+    async function cargarProductos() {
+      try {
+        const response = await fetch('/api/productos');
+        const data = await response.json();
+        if (data.success && Array.isArray(data.data)) {
+          productos = data.data;
+          mostrarProductos();
+        }
+      } catch (error) {
+        console.error('Error cargando productos:', error);
+        mostrarMensaje('Error al cargar productos', 'error');
+      }
+    }
+
+    // Mostrar productos en tabla
+    function mostrarProductos() {
+      const tbody = document.getElementById('productos-tbody');
+      if (productos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #999;">No hay productos registrados</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = productos.map(producto => {
+        const precioAnterior = producto.precio_anterior ? `<span class="price-old">$${producto.precio_anterior}</span>` : '';
+        const destacado = producto.destacado ? '⭐ Sí' : 'No';
+        const getNombreCategoria = (id) => {
+          const cat = categorias.find(c => c.id === id);
+          return cat ? cat.nombre : 'Sin categoría';
+        };
+
+        return `
+          <tr>
+            <td>#${producto.id}</td>
+            <td><strong>${producto.nombre}</strong></td>
+            <td>${getNombreCategoria(producto.categoria_id)}</td>
+            <td><span class="price">${precioAnterior}$${parseFloat(producto.precio).toFixed(2)}</span></td>
+            <td>${producto.stock}</td>
+            <td>${destacado}</td>
+            <td>
+              <div class="actions">
+                <button class="btn-secondary" onclick="editarProducto(${producto.id})">✏️ Editar</button>
+                <button class="btn-danger" onclick="abrirModalEliminar(${producto.id})">🗑️ Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Editar producto
+    async function editarProducto(id) {
+      try {
+        const response = await fetch(`/api/productos/${id}`);
+        const data = await response.json();
+        if (data.success) {
+          const producto = data.data;
+          document.getElementById('nombre').value = producto.nombre;
+          document.getElementById('descripcion').value = producto.descripcion || '';
+          document.getElementById('precio').value = producto.precio;
+          document.getElementById('precio_anterior').value = producto.precio_anterior || '';
+          document.getElementById('stock').value = producto.stock || 0;
+          document.getElementById('imagen').value = producto.imagen || '';
+          document.getElementById('categoria').value = producto.categoria_id || '';
+          document.getElementById('destacado').checked = producto.destacado === 1 || producto.destacado === true;
+          
+          productoEnEdicion = id;
+          document.getElementById('form-title').textContent = `Editar Producto #${id}`;
+          window.scrollTo(0, 0);
+        }
+      } catch (error) {
+        console.error('Error al cargar producto:', error);
+        mostrarMensaje('Error al cargar el producto', 'error');
+      }
+    }
+
+    // Guardar producto (crear o actualizar)
+    document.getElementById('producto-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const producto = {
+        nombre: document.getElementById('nombre').value,
+        descripcion: document.getElementById('descripcion').value,
+        precio: parseFloat(document.getElementById('precio').value),
+        precio_anterior: document.getElementById('precio_anterior').value ? parseFloat(document.getElementById('precio_anterior').value) : null,
+        stock: parseInt(document.getElementById('stock').value) || 0,
+        imagen: document.getElementById('imagen').value,
+        categoria_id: document.getElementById('categoria').value ? parseInt(document.getElementById('categoria').value) : null,
+        destacado: document.getElementById('destacado').checked,
+        activo: true
+      };
+
+      try {
+        let response, mensaje;
+        if (productoEnEdicion) {
+          response = await fetch(`/api/productos/${productoEnEdicion}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(producto)
+          });
+          mensaje = 'Producto actualizado exitosamente';
+        } else {
+          response = await fetch('/api/productos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(producto)
+          });
+          mensaje = 'Producto creado exitosamente';
+        }
+
+        if (response.ok) {
+          mostrarMensaje(mensaje, 'success');
+          limpiarFormulario();
+          cargarProductos();
+        } else {
+          const error = await response.json();
+          mostrarMensaje(error.mensaje || 'Error al guardar', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        mostrarMensaje('Error al guardar el producto', 'error');
+      }
+    });
+
+    // Limpiar formulario
+    function limpiarFormulario() {
+      document.getElementById('producto-form').reset();
+      productoEnEdicion = null;
+      document.getElementById('form-title').textContent = 'Crear Nuevo Producto';
+    }
+
+    document.getElementById('btn-limpiar').addEventListener('click', limpiarFormulario);
+
+    // Modal de eliminación
+    function abrirModalEliminar(id) {
+      productoAEliminar = id;
+      const producto = productos.find(p => p.id === id);
+      document.getElementById('delete-message').textContent = `¿Está seguro de que desea eliminar "${producto.nombre}"?`;
+      document.getElementById('delete-modal').classList.add('open');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('delete-modal').classList.remove('open');
+      productoAEliminar = null;
+    }
+
+    async function confirmarEliminar() {
+      try {
+        const response = await fetch(`/api/productos/${productoAEliminar}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          mostrarMensaje('Producto eliminado exitosamente', 'success');
+          cargarProductos();
+          closeDeleteModal();
+        } else {
+          const error = await response.json();
+          mostrarMensaje(error.mensaje || 'Error al eliminar', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        mostrarMensaje('Error al eliminar el producto', 'error');
+      }
+    }
+
+    // Mostrar mensajes
+    function mostrarMensaje(mensaje, tipo) {
+      const div = document.getElementById('message');
+      div.className = tipo === 'success' ? 'success' : 'error';
+      div.textContent = mensaje;
+      div.style.display = 'block';
+      setTimeout(() => {
+        div.style.display = 'none';
+      }, 5000);
+    }
+
+    // Inicializar
+    window.addEventListener('load', () => {
+      cargarCategorias();
+      cargarProductos();
+    });
+
+    // Cerrar modal al hacer click fuera
+    window.addEventListener('click', (e) => {
+      const modal = document.getElementById('delete-modal');
+      if (e.target === modal) {
+        closeDeleteModal();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -85,9 +85,9 @@
                     <button type="button" id="qty-plus">+</button>
                 </div>
             </div>
-            <div class="product-actions-detail">
+           *// <div class="product-actions-detail">
                 <button class="btn-add-cart" id="add-to-cart-btn">Agregar al Carrito</button>
-                <button class="btn-wishlist" title="Agregar a favoritos">♡</button>
+                <button class="btn-whatsapp-detail" id="whatsapp-buy-detail">💬 Comprar por WhatsApp</button>
             </div>
             <div class="product-meta">
                 <p>Categoría: <span id="meta-category">-</span></p>
@@ -132,8 +132,8 @@
             </div>
             <div class="footer-col">
                 <h3>Contacto</h3>
-                <p>📍 Av. Principal 123</p>
-                <p>📞 +54 11 1234-5678</p>
+                <p>📍 Calle 20 #21 -21, San Francisco, Bucaramanga</p>
+                <p>📞 +57 3043223100</p>
                 <p>✉️ info@okidoki.com.ar</p>
             </div>
         </div>
@@ -164,5 +164,47 @@
     <div class="toast" id="toast"></div>
 
     <script src="js/app.js"></script>
+    <script>
+        const WHATSAPP_NUMBER = '573043223100';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const pathParts = window.location.pathname.split('/');
+            const productId = pathParts[pathParts.length - 1];
+
+            try {
+                const response = await fetch(`/api/productos/${productId}`);
+                const data = await response.json();
+                if (data.success) {
+                    const p = data.data;
+                    document.getElementById('product-name').textContent = p.nombre;
+                    document.getElementById('product-category').textContent = p.categoria || 'Cargando...';
+                    document.getElementById('product-price').textContent = `$${parseFloat(p.precio).toFixed(2)}`;
+                    document.getElementById('meta-category').textContent = p.categoria || 'Zapatillas';
+                    document.getElementById('meta-sku').textContent = `OKD-${String(p.id).padStart(3, '0')}`;
+                    document.getElementById('stock-quantity').textContent = p.stock;
+
+                    if (p.precio_anterior) {
+                        document.getElementById('product-old-price').textContent = `$${parseFloat(p.precio_anterior).toFixed(2)}`;
+                        document.getElementById('product-old-price').style.display = 'inline';
+                    }
+
+                    document.getElementById('product-description').innerHTML = p.descripcion ? `<p>${p.descripcion}</p>` : '<p>Producto de calzado en cuero de alta calidad.</p>';
+
+                    if (p.imagen) {
+                        document.querySelector('.product-detail-image').innerHTML = `<img src="${p.imagen}" alt="${p.nombre}" style="max-height:100%;max-width:100%;object-fit:contain;">`;
+                    }
+
+                    document.getElementById('whatsapp-buy-detail').onclick = () => {
+                        const cantidad = document.getElementById('quantity-input').value || 1;
+                        const total = parseFloat(p.precio) * parseInt(cantidad);
+                        const mensaje = encodeURIComponent(`Hola! Me interesa comprar: ${p.nombre}\nCantidad: ${cantidad}\nPrecio unitario: $${parseFloat(p.precio).toFixed(2)}\nTotal: $${total.toFixed(2)}`);
+                        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
+                    };
+                }
+            } catch (error) {
+                console.error('Error cargando producto:', error);
+            }
+        });
+    </script>
 </body>
 </html>

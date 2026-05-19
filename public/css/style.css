@@ -336,7 +336,7 @@ nav ul li a:hover::after {
 
 .categories-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
@@ -469,6 +469,41 @@ nav ul li a:hover::after {
 
 .product-actions button:hover {
     background: var(--silver-dark);
+}
+
+.btn-whatsapp-buy {
+    background: #25D366 !important;
+    color: white !important;
+}
+
+.btn-whatsapp-buy:hover {
+    background: #1DA851 !important;
+}
+
+.btn-whatsapp-detail {
+    padding: 15px 30px;
+    background: #25D366;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background var(--transition);
+    white-space: nowrap;
+}
+
+.btn-whatsapp-detail:hover {
+    background: #1DA851;
+}
+
+.btn-whatsapp-checkout {
+    background: #25D366 !important;
+    color: white !important;
+}
+
+.btn-whatsapp-checkout:hover {
+    background: #1DA851 !important;
 }
 
 .product-info {

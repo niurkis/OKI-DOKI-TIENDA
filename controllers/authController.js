@@ -39,6 +39,54 @@ const AuthController = {
         mensaje: "Error en el servidor"
       });
     }
+  },
+
+  async register(req, res) {
+    try {
+      const { nombre, correo, password } = req.body;
+
+      if (!nombre || !correo || !password) {
+        return res.status(400).json({
+          success: false,
+          mensaje: "Nombre, correo y contraseña son requeridos"
+        });
+      }
+
+      const existente = await UsuarioModel.obtenerPorCorreo(correo);
+      if (existente) {
+        return res.status(409).json({
+          success: false,
+          mensaje: "El correo ya está registrado"
+        });
+      }
+
+      if (password.length < 3) {
+        return res.status(400).json({
+          success: false,
+          mensaje: "La contraseña debe tener al menos 3 caracteres"
+        });
+      }
+
+      const nuevoUsuario = await UsuarioModel.crear({
+        nombre,
+        correo,
+        password,
+        rol: "cliente"
+      });
+
+      res.status(201).json({
+        success: true,
+        mensaje: "Registro exitoso",
+        usuario: nuevoUsuario
+      });
+
+    } catch (error) {
+      console.error("Error register:", error);
+      res.status(500).json({
+        success: false,
+        mensaje: "Error en el servidor"
+      });
+    }
   }
 };
 

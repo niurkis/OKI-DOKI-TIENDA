@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -30,12 +31,17 @@ app.get("/contacto", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "contacto.html"));
 });
 
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "admin.html"));
+});
+
 app.get("/producto/:id", (req, res) => {
   res.sendFile(path.join(__dirname, "views", "producto.html"));
 });
 
 // 3. RUTAS DE LA API
 app.use("/api/productos", require("./routes/productos"));
+app.use("/api/categorias", require("./routes/categorias"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/contacto", require("./routes/contacto"));
 

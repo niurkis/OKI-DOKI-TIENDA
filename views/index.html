@@ -68,33 +68,21 @@
             <p>Descubre nuestra colección</p>
         </div>
         <div class="categories-grid">
-            <div class="category-card" onclick="filtrarPorCategoria('zapatos')">
+            <div class="category-card" onclick="filtrarPorCategoria('zapatillas')">
                 <div class="category-content">
-                    <h3>Zapatos para Dama</h3>
+                    <h3>Zapatillas</h3>
                     <span class="arrow">&rarr;</span>
                 </div>
             </div>
-            <div class="category-card" onclick="filtrarPorCategoria('bolsos')">
-                <div class="category-content">
-                    <h3>Bolsos de Mano</h3>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-            <div class="category-card" onclick="filtrarPorCategoria('sandalias')">
-                <div class="category-content">
-                    <h3>Sandalias</h3>
-                    <span class="arrow">&rarr;</span>
-                </div>
-            </div>
-            <div class="category-card" onclick="filtrarPorCategoria('tenis')">
+            <div class="category-card" onclick="filtrarPorCategoria('tenis-casuales')">
                 <div class="category-content">
                     <h3>Tenis Casuales</h3>
                     <span class="arrow">&rarr;</span>
                 </div>
             </div>
-            <div class="category-card" onclick="filtrarPorCategoria('botas')">
+            <div class="category-card" onclick="filtrarPorCategoria('botas-cuero')">
                 <div class="category-content">
-                    <h3>Botas en Cuero</h3>
+                    <h3>Botas de Cuero</h3>
                     <span class="arrow">&rarr;</span>
                 </div>
             </div>
@@ -241,18 +229,49 @@
     <div class="modal" id="login-modal">
         <div class="modal-content">
             <button class="modal-close" id="modal-close">&times;</button>
-            <h2>Iniciar Sesión</h2>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="login-email">Correo Electrónico</label>
-                    <input type="email" id="login-email" required placeholder="admin@okidoki.com">
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Contraseña</label>
-                    <input type="password" id="login-password" required placeholder="admin123">
-                </div>
-                <button type="submit" class="btn btn-block">Iniciar Sesión</button>
-            </form>
+
+            <!-- LOGIN FORM -->
+            <div id="login-form-container">
+                <h2>Iniciar Sesión</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Correo Electrónico</label>
+                        <input type="email" id="login-email" required placeholder="tu@correo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" required placeholder="••••••">
+                    </div>
+                    <button type="submit" class="btn btn-block">Iniciar Sesión</button>
+                </form>
+                <p style="margin-top: 12px; text-align: center; font-size: 13px;">
+                    ¿No tienes cuenta? <a href="#" id="show-register" style="color: #e67e22; font-weight: 600;">Regístrate aquí</a>
+                </p>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div id="register-form-container" style="display: none;">
+                <h2>Crear Cuenta</h2>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-nombre">Nombre Completo</label>
+                        <input type="text" id="register-nombre" required placeholder="Tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Correo Electrónico</label>
+                        <input type="email" id="register-email" required placeholder="tu@correo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Contraseña</label>
+                        <input type="password" id="register-password" required placeholder="Mínimo 3 caracteres">
+                    </div>
+                    <button type="submit" class="btn btn-block">Crear Cuenta</button>
+                </form>
+                <p style="margin-top: 12px; text-align: center; font-size: 13px;">
+                    ¿Ya tienes cuenta? <a href="#" id="show-login" style="color: #e67e22; font-weight: 600;">Inicia sesión</a>
+                </p>
+            </div>
+
             <p id="login-message" style="margin-top: 15px; text-align: center; font-size: 13px;"></p>
         </div>
     </div>

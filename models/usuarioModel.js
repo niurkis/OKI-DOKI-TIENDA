@@ -15,6 +15,14 @@ const UsuarioModel = {
       [correo]
     );
     return rows[0] || null;
+  },
+
+  async crear({ nombre, correo, password, rol = "cliente" }) {
+    const [result] = await db.execute(
+      "INSERT INTO usuarios (nombre, correo, password, rol) VALUES (?, ?, ?, ?)",
+      [nombre, correo, password, rol]
+    );
+    return { id: result.insertId, nombre, correo, rol };
   }
 };
 

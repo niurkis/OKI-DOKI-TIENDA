@@ -1,14 +1,15 @@
-CREATE DATABASE IF NOT EXISTS okidokibd;
+DROP DATABASE IF EXISTS okidokibd1;
+CREATE DATABASE okidokibd1;
 
-USE okidokibd;
+USE okidokibd1;
 
-CREATE TABLE IF NOT EXISTS categorias (
+CREATE TABLE categorias (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL UNIQUE,
   slug VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS productos (
+CREATE TABLE productos (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(200) NOT NULL,
   descripcion TEXT,
@@ -23,7 +24,7 @@ CREATE TABLE IF NOT EXISTS productos (
   FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE SET NULL
 );
 
-CREATE TABLE IF NOT EXISTS usuarios (
+CREATE TABLE usuarios (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100),
   correo VARCHAR(100) NOT NULL UNIQUE,
@@ -32,7 +33,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS contactos (
+CREATE TABLE contactos (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
   correo VARCHAR(100) NOT NULL,
@@ -43,23 +44,20 @@ CREATE TABLE IF NOT EXISTS contactos (
 );
 
 INSERT INTO categorias (nombre, slug) VALUES 
-('Zapatos para dama', 'zapatos-dama'),
-('Bolsos de mano', 'bolsos-mano'),
-('Sandalias', 'sandalias'),
+('Zapatillas', 'zapatillas'),
 ('Tenis casuales', 'tenis-casuales'),
-('Botas en cuero', 'botas-cuero');
+('Botas de cuero', 'botas-cuero');
 
 INSERT INTO productos (nombre, descripcion, precio, precio_anterior, imagen, categoria_id, stock, destacado) VALUES 
-('Zapatos de Tacón Negro', 'Elegantes zapatos de tacón en cuero genuino negro. Perfectos para ocasiones formales y eventos especiales.', 129.99, 159.99, 'img/zapatos-tacon.jpg', 1, 15, true),
-('Bolsa Tote Clásica', 'Bolsa tote espaciosa en cuero sintético de alta calidad. Compartimento principal y bolsillos internos.', 89.99, NULL, 'img/bolsa-tote.jpg', 2, 25, true),
-('Sandalias Planas Negras', 'Sandalias planas cómodas con diseño minimalista. Suela flexible para uso diario.', 49.99, 59.99, 'img/sandalias-negro.jpg', 3, 30, true),
-('Tenis Blancos Urbanos', 'Tenis casuales blancos estilo urbano. Suela con amortiguación para comodidad todo el día.', 79.99, NULL, 'img/tenis-blancos.jpg', 4, 40, false),
-('Botas Chelsea Negras', 'Botas Chelsea en cuero genuino con elástico lateral. Diseño atemporal que combina con todo.', 189.99, 219.99, 'img/botas-chelsea.jpg', 5, 12, true),
-('Mocasines Negros', 'Mocasines clásicos sin cordones en cuero negro. Suela de goma antideslizante.', 99.99, NULL, 'img/mocasines.jpg', 1, 20, false),
-('Bolso Cruzado Pequeño', 'Bolso cruzado compacto con correa ajustable. Ideal para salidas nocturnas.', 59.99, 69.99, 'img/bolso-cruzado.jpg', 2, 35, false),
-('Sandalias con Tacón Bajo', 'Sandalias elegantes con tacón bajo de 3cm. Cierre de hebilla en el tobillo.', 69.99, NULL, 'img/sandalias-tacon.jpg', 3, 22, false),
-('Tenis Negros Deportivos', 'Tenis deportivos negros con diseño aerodinámico. Transpirables y ligeros.', 85.99, 95.99, 'img/tenis-negros.jpg', 4, 18, false),
-('Botas Altas Militar', 'Botas altas estilo militar con cordones. Suela gruesa antideslizante para todo terreno.', 159.99, NULL, 'img/botas-militar.jpg', 5, 8, false);
+('Zapatillas Deportivas Negras', 'Zapatillas deportivas en cuero negro con suela amortiguada. Perfectas para el día a día con estilo y comodidad.', 129.99, 159.99, 'img/2.jpeg', 1, 15, true),
+('Zapatillas Casuales Blancas', 'Zapatillas casuales blancas en cuero suave. Diseño minimalista y elegante para cualquier ocasión.', 89.99, NULL, 'img/3.jpeg', 1, 25, true),
+('Zapatillas Urbanas Premium', 'Zapatillas urbanas de cuero premium con detalles plateados. Comodidad y estilo en cada paso.', 149.99, 179.99, 'img/4.jpeg', 1, 20, true),
+('Tenis Casuales Beige', 'Tenis casuales en cuero beige con suela blanca. Ideales para un look relajado y moderno.', 79.99, NULL, 'img/5.jpeg', 2, 30, true),
+('Tenis Casuales Clásicos', 'Tenis casuales clásicos en cuero marrón. Cómodos y versátiles para cualquier outfit.', 69.99, 89.99, 'img/6.jpeg', 2, 25, false),
+('Tenis Casuales Modernos', 'Tenis casuales modernos en cuero gris. Diseño contemporáneo con suela antideslizante.', 85.99, NULL, 'img/7.jpeg', 2, 18, false),
+('Botas de Cuero Chelsea', 'Botas Chelsea en cuero genuino con elástico lateral. Diseño atemporal que combina con todo.', 189.99, 219.99, 'img/8.jpeg', 3, 12, true),
+('Botas de Cuero Clásicas', 'Botas clásicas de cuero marrón con cordones. Perfectas para un look sofisticado.', 159.99, NULL, 'img/9.jpeg', 3, 8, false),
+('Botas de Cuero Modernas', 'Botas modernas de cuero negro con hebilla. Estilo único y materiales de alta calidad.', 139.99, 169.99, 'img/10.jpeg', 3, 10, false);
 
 INSERT INTO usuarios (nombre, correo, password, rol) VALUES 
 ('Administrador', 'admin@okidoki.com', 'admin123', 'admin'),
