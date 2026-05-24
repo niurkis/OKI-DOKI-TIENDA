@@ -244,25 +244,136 @@ nav ul li a:hover::after {
    ========================================== */
 
 /* ==========================================
-   HERO
+   HERO - ESTILOS DEL CARRUSEL
    ========================================== */
-
 .hero {
     position: relative;
-    height: 600px;
-    /* Cambiamos el fondo por tu imagen en mosaico */
-    background-image: url("C:\\Users\\vlise\\OneDrive\\Desktop\\OKI-DOKI-TIENDA\\public\\img\\fondo.png"); /* <-- Asegúrate de poner la ruta correcta a tu imagen */
-    background-repeat: repeat;
-    background-size: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 600px; /* Altura del carrusel */
+    width: 100%;
     overflow: hidden;
+    background-color: var(--black-900);
 }
 
-/* Vaciamos el antes encargado de hacer las rayas */
-.hero::before {
-    content: none; 
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    display: flex;
+    align-items: center; /* Centrar verticalmente contenido */
+    justify-content: center; /* Centrar horizontalmente contenido */
+    z-index: 1;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+/* Oscurecer un poco la imagen para leer el botón */
+.carousel-slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.hero-content {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    z-index: 2;
+    padding: 20px;
+}
+
+/* Forzar que el botón de comprar sea prominente */
+.hero .btn {
+    padding: 18px 60px;
+    font-size: 16px;
+    font-weight: 600;
+    background: var(--white);
+    color: var(--black);
+    transition: var(--transition);
+}
+
+.hero .btn:hover {
+    background: var(--black);
+    color: var(--white);
+    outline: 1px solid var(--white);
+}
+
+/* Flechas de Navegación */
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    border: none;
+    font-size: 24px;
+    padding: 15px 20px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background var(--transition);
+}
+
+.carousel-control:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.carousel-control.prev { left: 30px; }
+.carousel-control.next { right: 30px; }
+
+/* Puntos de Navegación */
+.carousel-dots {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+
+.dot.active {
+    background: var(--white);
+}
+
+/* Ajustes Responsive */
+@media (max-width: 992px) {
+    .hero { height: 450px; }
+    .hero .btn { padding: 15px 40px; font-size: 14px; }
+    .promo-der { justify-content: center; padding-right: 0; }
+}
+
+@media (max-width: 768px) {
+    .hero { height: 350px; }
+    .carousel-control { display: none; } /* Ocultar flechas en móvil */
 }
 
 /* ==========================================
