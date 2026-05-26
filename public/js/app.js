@@ -4,6 +4,10 @@
 let carrito = [];
 let categoriasMap = {};
 
+function formatCOP(amount) {
+  return 'COP ' + Math.round(amount).toLocaleString('es-CO');
+}
+
 // ============================================
 // INICIALIZACIÓN
 // ============================================
@@ -12,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarUISesion();
     cargarCategorias();
     cargarProductos();
+    iniciarCarousel();
     configurarEventos();
     cargarCarritoDelLocalStorage();
     renderizarCarrito();
@@ -47,7 +52,7 @@ async function cargarProductos() {
     try {
         container.innerHTML = '<div class="loading"><div class="spinner"></div>Cargando productos...</div>';
         
-        const response = await fetch('/api/productos/destacados');
+        const response = await fetch('/api/productos');
         const data = await response.json();
         
         if (data.success && Array.isArray(data.data) && data.data.length > 0) {
@@ -59,6 +64,84 @@ async function cargarProductos() {
     } catch (error) {
         console.error('❌ Error cargando productos:', error);
         container.innerHTML = '<div class="empty-state"><h3>Error al cargar productos</h3></div>';
+    }
+}
+
+// ============================================
+// CARRUSEL DE PRODUCTOS
+// ============================================
+
+async function iniciarCarousel() {
+    const container = document.getElementById('carousel-container');
+    const dotsContainer = document.getElementById('carousel-dots');
+    if (!container) return;
+
+    try {
+        const response = await fetch('/api/productos');
+        const data = await response.json();
+        if (!data.success || !data.data.length) return;
+
+        const productos = data.data.sort(() => Math.random() - 0.5).slice(0, 5);
+
+        let slidesHTML = '';
+        let dotsHTML = '';
+        productos.forEach((p, i) => {
+            const img = p.imagen || '';
+            const active = i === 0 ? 'active' : '';
+            slidesHTML += `
+                <div class="carousel-slide ${active}" style="background-image: url('${img}'); background-color: #333;" data-index="${i}">
+                    <div class="hero-content">
+                        <h2>${p.nombre}</h2>
+                        <p>${formatCOP(p.precio)}</p>
+                        <a href="/producto/${p.id}" class="btn">Ver Producto</a>
+                    </div>
+                </div>`;
+            dotsHTML += `<span class="dot ${active}" data-index="${i}"></span>`;
+        });
+
+        container.innerHTML = slidesHTML;
+        dotsContainer.innerHTML = dotsHTML;
+
+        let current = 0;
+        let interval;
+
+        function goTo(index) {
+            const slides = container.querySelectorAll('.carousel-slide');
+            const dots = dotsContainer.querySelectorAll('.dot');
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            current = index;
+        }
+
+        document.querySelector('.carousel-control.prev').addEventListener('click', () => {
+            const slides = container.querySelectorAll('.carousel-slide');
+            goTo(current === 0 ? slides.length - 1 : current - 1);
+            reiniciarAutoplay();
+        });
+        document.querySelector('.carousel-control.next').addEventListener('click', () => {
+            const slides = container.querySelectorAll('.carousel-slide');
+            goTo(current === slides.length - 1 ? 0 : current + 1);
+            reiniciarAutoplay();
+        });
+        dotsContainer.querySelectorAll('.dot').forEach(d => {
+            d.addEventListener('click', () => {
+                goTo(parseInt(d.dataset.index));
+                reiniciarAutoplay();
+            });
+        });
+
+        function reiniciarAutoplay() {
+            clearInterval(interval);
+            const slides = container.querySelectorAll('.carousel-slide');
+            interval = setInterval(() => {
+                goTo(current === slides.length - 1 ? 0 : current + 1);
+            }, 5000);
+        }
+        reiniciarAutoplay();
+    } catch (error) {
+        console.error('Error cargando carrusel:', error);
     }
 }
 
@@ -75,7 +158,7 @@ function mostrarProductos(productos) {
     }
 
     container.innerHTML = productos.map(producto => {
-        const precioAnterior = producto.precio_anterior ? `<span class="original-price">$${parseFloat(producto.precio_anterior).toFixed(2)}</span>` : '';
+        const precioAnterior = producto.precio_anterior ? `<span class="original-price">${formatCOP(producto.precio_anterior)}</span>` : '';
         const imagenUrl = producto.imagen && producto.imagen.trim() ? producto.imagen : null;
         
         let imageHTML;
@@ -102,7 +185,7 @@ function mostrarProductos(productos) {
                     <p class="product-description">${producto.descripcion || 'Calzado en cuero'}</p>
                     <div class="product-price">
                         ${precioAnterior}
-                        <span class="current-price">$${parseFloat(producto.precio).toFixed(2)}</span>
+                        <span class="current-price">${formatCOP(producto.precio)}</span>
                     </div>
                     <div class="product-stock" style="color: ${stockColor};">
                         ${stockTexto}
@@ -172,9 +255,9 @@ function renderizarCarrito() {
     if (!carrito || carrito.length === 0) {
         cartEmpty.style.display = 'block';
         cartContainer.style.display = 'none';
-        if (summarySubtotal) summarySubtotal.textContent = '$0.00';
-        if (summaryShipping) summaryShipping.textContent = '$0.00';
-        if (summaryTotal) summaryTotal.textContent = '$0.00';
+        if (summarySubtotal) summarySubtotal.textContent = 'COP 0';
+        if (summaryShipping) summaryShipping.textContent = 'COP 0';
+        if (summaryTotal) summaryTotal.textContent = 'COP 0';
         return;
     }
 
@@ -192,7 +275,7 @@ function renderizarCarrito() {
                         <div class="category">Producto</div>
                     </div>
                 </div>
-                <div class="cart-price">$${parseFloat(item.precio).toFixed(2)}</div>
+                <div class="cart-price">${formatCOP(item.precio)}</div>
                 <div class="cart-quantity">
                     <div class="quantity-controls">
                         <button type="button" class="qty-cart-btn" onclick="cambiarCantidadCarrito(${item.id}, -1)">-</button>
@@ -200,19 +283,19 @@ function renderizarCarrito() {
                         <button type="button" class="qty-cart-btn" onclick="cambiarCantidadCarrito(${item.id}, 1)">+</button>
                     </div>
                 </div>
-                <div class="cart-subtotal">$${subtotal.toFixed(2)}</div>
+                <div class="cart-subtotal">${formatCOP(subtotal)}</div>
                 <button class="cart-remove" onclick="eliminarDelCarrito(${item.id})">×</button>
             </div>
         `;
     }).join('');
 
     const subtotal = carrito.reduce((sum, item) => sum + item.precio * item.cantidad, 0);
-    const envio = subtotal >= 100 ? 0 : 9.99;
+    const envio = subtotal >= 250000 ? 0 : 15000;
     const total = subtotal + envio;
 
-    if (summarySubtotal) summarySubtotal.textContent = `$${subtotal.toFixed(2)}`;
-    if (summaryShipping) summaryShipping.textContent = envio === 0 ? 'Gratis' : `$${envio.toFixed(2)}`;
-    if (summaryTotal) summaryTotal.textContent = `$${total.toFixed(2)}`;
+    if (summarySubtotal) summarySubtotal.textContent = `${formatCOP(subtotal)}`;
+    if (summaryShipping) summaryShipping.textContent = envio === 0 ? 'Gratis' : `${formatCOP(envio)}`;
+    if (summaryTotal) summaryTotal.textContent = `${formatCOP(total)}`;
 }
 
 function cambiarCantidadCarrito(id, delta) {
@@ -243,7 +326,7 @@ const WHATSAPP_NUMBER = '573043223100';
 
 function comprarPorWhatsApp(event, nombre, precio) {
     event.stopPropagation();
-    const mensaje = encodeURIComponent(`Hola! Me interesa comprar: ${nombre} - $${parseFloat(precio).toFixed(2)}`);
+    const mensaje = encodeURIComponent(`Hola! Me interesa comprar: ${nombre} - ${formatCOP(precio)}`);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
 }
 
@@ -259,10 +342,10 @@ function comprarCarritoPorWhatsApp() {
     carrito.forEach((item, index) => {
         const subtotal = item.precio * item.cantidad;
         total += subtotal;
-        mensaje += `${index + 1}. ${item.nombre} x${item.cantidad} = $${subtotal.toFixed(2)}\n`;
+        mensaje += `${index + 1}. ${item.nombre} x${item.cantidad} = ${formatCOP(subtotal)}\n`;
     });
 
-    mensaje += `\nTotal: $${total.toFixed(2)}`;
+    mensaje += `\nTotal: ${formatCOP(total)}`;
     mensaje += '\n\nPor favor, indíqueme formas de pago y envío. ¡Gracias!';
 
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`, '_blank');

@@ -483,7 +483,7 @@
       }
 
       tbody.innerHTML = productos.map(producto => {
-        const precioAnterior = producto.precio_anterior ? `<span class="price-old">$${producto.precio_anterior}</span>` : '';
+        const precioAnterior = producto.precio_anterior ? `<span class="price-old">COP ${Math.round(producto.precio_anterior).toLocaleString('es-CO')}</span>` : '';
         const destacado = producto.destacado ? '⭐ Sí' : 'No';
         const getNombreCategoria = (id) => {
           const cat = categorias.find(c => c.id === id);
@@ -495,7 +495,7 @@
             <td>#${producto.id}</td>
             <td><strong>${producto.nombre}</strong></td>
             <td>${getNombreCategoria(producto.categoria_id)}</td>
-            <td><span class="price">${precioAnterior}$${parseFloat(producto.precio).toFixed(2)}</span></td>
+            <td><span class="price">${precioAnterior}COP ${Math.round(producto.precio).toLocaleString('es-CO')}</span></td>
             <td>${producto.stock}</td>
             <td>${destacado}</td>
             <td>

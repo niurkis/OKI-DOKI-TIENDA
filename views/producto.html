@@ -9,7 +9,7 @@
 <body>
     <header>
         <div class="top-bar">
-            <span>ENVÍO GRATIS EN COMPRAS MAYORES DE $100</span>
+            <span>ENVÍO GRATIS EN COMPRAS MAYORES DE COP 250.000</span>
         </div>
         <div class="main-header">
             <nav class="header-nav">
@@ -68,7 +68,7 @@
             <p class="product-detail-category" id="product-category">Cargando...</p>
             <h1 id="product-name">Cargando producto...</h1>
             <div class="product-detail-price">
-                <span class="price" id="product-price">$0.00</span>
+                <span class="price" id="product-price">COP 0</span>
                 <span class="old-price" id="product-old-price" style="display: none;"></span>
             </div>
             <div class="product-detail-description" id="product-description">
@@ -178,13 +178,13 @@
                     const p = data.data;
                     document.getElementById('product-name').textContent = p.nombre;
                     document.getElementById('product-category').textContent = p.categoria || 'Cargando...';
-                    document.getElementById('product-price').textContent = `$${parseFloat(p.precio).toFixed(2)}`;
+                    document.getElementById('product-price').textContent = formatCOP(p.precio);
                     document.getElementById('meta-category').textContent = p.categoria || 'Zapatillas';
                     document.getElementById('meta-sku').textContent = `OKD-${String(p.id).padStart(3, '0')}`;
                     document.getElementById('stock-quantity').textContent = p.stock;
 
                     if (p.precio_anterior) {
-                        document.getElementById('product-old-price').textContent = `$${parseFloat(p.precio_anterior).toFixed(2)}`;
+                        document.getElementById('product-old-price').textContent = formatCOP(p.precio_anterior);
                         document.getElementById('product-old-price').style.display = 'inline';
                     }
 
@@ -197,7 +197,7 @@
                     document.getElementById('whatsapp-buy-detail').onclick = () => {
                         const cantidad = document.getElementById('quantity-input').value || 1;
                         const total = parseFloat(p.precio) * parseInt(cantidad);
-                        const mensaje = encodeURIComponent(`Hola! Me interesa comprar: ${p.nombre}\nCantidad: ${cantidad}\nPrecio unitario: $${parseFloat(p.precio).toFixed(2)}\nTotal: $${total.toFixed(2)}`);
+                        const mensaje = encodeURIComponent(`Hola! Me interesa comprar: ${p.nombre}\nCantidad: ${cantidad}\nPrecio unitario: ${formatCOP(p.precio)}\nTotal: ${formatCOP(total)}`);
                         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${mensaje}`, '_blank');
                     };
                 }
