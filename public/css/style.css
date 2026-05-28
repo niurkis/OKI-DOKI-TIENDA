@@ -648,9 +648,14 @@ nav ul li a:hover::after {
    ========================================== */
 
 .promo-banner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
     gap: 30px;
+}
+
+.promo-banner .promo-card {
+    max-width: 600px;
+    width: 100%;
 }
 
 .promo-card {
@@ -1819,5 +1824,131 @@ footer {
     nav ul li a {
         font-size: 11px;
         padding: 10px 0;
+    }
+}
+
+.search-overlay {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-top: 1px solid var(--gray-100);
+}
+
+.search-overlay.active {
+    display: block;
+}
+
+.search-overlay-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.search-overlay-content form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-overlay-content input {
+    flex: 1;
+    padding: 14px 18px;
+    border: 2px solid var(--gray-100);
+    font-size: 16px;
+    background: var(--gray-50);
+    color: var(--black);
+    border-radius: 4px;
+}
+
+.search-overlay-content input:focus {
+    outline: none;
+    border-color: var(--silver-dark);
+    background: var(--white);
+}
+
+.search-overlay-content button {
+    padding: 14px 24px;
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background var(--transition);
+}
+
+.search-overlay-content button:hover {
+    background: var(--silver-dark);
+}
+
+.search-results {
+    margin-top: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-100);
+    cursor: pointer;
+    transition: background var(--transition);
+}
+
+.search-result-item:hover {
+    background: var(--gray-50);
+}
+
+.search-result-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: var(--gray-50);
+}
+
+.search-result-info {
+    flex: 1;
+}
+
+.search-result-info h4 {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--black);
+}
+
+.search-result-info p {
+    font-size: 13px;
+    color: var(--silver-dark);
+}
+
+.search-result-price {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--black);
+}
+
+.search-empty {
+    text-align: center;
+    padding: 30px;
+    color: var(--silver-dark);
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .search-overlay-content {
+        padding: 15px;
+    }
+    .search-overlay-content input {
+        font-size: 14px;
+        padding: 12px 14px;
+    }
+    .search-results {
+        max-height: 300px;
     }
 }

@@ -50,6 +50,15 @@ const Producto = {
     );
     return rows;
   },
+
+  search: async (termino) => {
+    const like = `%${termino}%`;
+    const [rows] = await pool.query(
+      "SELECT * FROM productos WHERE activo = TRUE AND (nombre LIKE ? OR descripcion LIKE ?)",
+      [like, like]
+    );
+    return rows;
+  },
 };
 
 module.exports = Producto;

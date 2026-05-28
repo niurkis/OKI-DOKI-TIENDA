@@ -87,6 +87,20 @@ const ProductoController = {
     }
   },
 
+  async buscarProductos(req, res) {
+    try {
+      const { q } = req.query;
+      if (!q || q.trim() === "") {
+        return res.json({ success: true, data: [] });
+      }
+      const productos = await Producto.search(q.trim());
+      res.json({ success: true, data: productos });
+    } catch (error) {
+      console.error("Error buscar productos:", error);
+      res.status(500).json({ success: false, mensaje: "Error al buscar productos", error: error.message });
+    }
+  },
+
   async eliminarProducto(req, res) {
     try {
       const { id } = req.params;

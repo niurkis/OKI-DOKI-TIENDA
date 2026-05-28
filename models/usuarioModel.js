@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("../config/database");
 
 const UsuarioModel = {
   async obtenerPorCredenciales(correo, password) {

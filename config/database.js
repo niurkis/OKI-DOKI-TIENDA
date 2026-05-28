@@ -10,6 +10,18 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0,
+  timezone: "Z",
 });
+
+pool.getConnection()
+  .then(conn => {
+    console.log("MySQL conectado");
+    conn.release();
+  })
+  .catch(err => {
+    console.log("Error MySQL:", err.message);
+  });
 
 module.exports = pool;

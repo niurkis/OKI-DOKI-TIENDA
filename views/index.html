@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oki Doki - Calzado en Cuero</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
@@ -51,6 +52,21 @@
             </div>
         </div>
     </header>
+
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-overlay-content">
+            <form id="search-form">
+                <input type="text" id="search-input" placeholder="Buscar productos..." autocomplete="off">
+                <button type="submit">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                </button>
+            </form>
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
 
  <section class="hero">
     <div class="carousel-container" id="carousel-container"></div>
@@ -112,16 +128,8 @@
                     <h3>Temporada</h3>
                     <div class="discount">-20%</div>
                     <h2>Verano 2026</h2>
-                    <p>Descuento especial en toda la colección de sandalias y calzado ligero.</p>
+                    <p>Descuento especial en nuestros productos destacados de la temporada.</p>
                     <a href="#productos" class="btn btn-outline">Ver Oferta</a>
-                </div>
-            </div>
-            <div class="promo-card promo-dark">
-                <div class="promo-content">
-                    <h3>Combo Exclusivo</h3>
-                    <h2>Zapatos + Bolso</h2>
-                    <p>Compra un par de zapatos y un bolso, y obtén 15% de descuento adicional en ambos.</p>
-                    <a href="#productos" class="btn">Ver Combo</a>
                 </div>
             </div>
         </div>
@@ -213,7 +221,7 @@
                 <h3>Contacto</h3>
                 <p>📍 Av. Principal 123, Ciudad</p>
                 <p>📞 +54 11 1234-5678</p>
-                <p>✉️ info@okidoki.com.ar</p>
+                <p>✉️ info@okidoki.com.co</p>
                 <p>Horario: Lun - Vie: 9:00 - 18:00</p>
             </div>
         </div>

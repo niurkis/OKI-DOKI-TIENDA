@@ -6,6 +6,9 @@ const ProductoController = require("../controllers/productoController");
 // GET: Obtener todos los productos
 router.get("/", ProductoController.obtenerTodos);
 
+// GET: Buscar productos (debe ir antes de /:id)
+router.get("/buscar", ProductoController.buscarProductos);
+
 // GET: Obtener productos destacados
 router.get("/destacados", ProductoController.obtenerDestacados);
 

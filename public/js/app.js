@@ -3,6 +3,7 @@
 // Variables globales
 let carrito = [];
 let categoriasMap = {};
+let todosLosProductos = [];
 
 function formatCOP(amount) {
   return 'COP ' + Math.round(amount).toLocaleString('es-CO');
@@ -56,6 +57,7 @@ async function cargarProductos() {
         const data = await response.json();
         
         if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+            todosLosProductos = data.data;
             mostrarProductos(data.data);
             console.log(`✓ ${data.data.length} productos cargados`);
         } else {
@@ -178,6 +180,14 @@ function mostrarProductos(productos) {
                 <div class="product-image ${imagenUrl ? '' : 'no-image'}">
                     ${imageHTML}
                     ${producto.destacado ? '<span class="product-badge">⭐ Destacado</span>' : ''}
+                    <div class="product-actions">
+                        <button class="btn-add-cart" onclick="agregarAlCarrito(event, ${producto.id}, '${producto.nombre}', ${producto.precio})" ${!enStock ? 'disabled' : ''}>
+                            🛒 Agregar
+                        </button>
+                        <button class="btn-whatsapp-buy" onclick="comprarPorWhatsApp(event, '${producto.nombre}', ${producto.precio})">
+                            💬 Comprar
+                        </button>
+                    </div>
                 </div>
                 <div class="product-info">
                     <div class="product-category">${categoria}</div>
@@ -189,14 +199,6 @@ function mostrarProductos(productos) {
                     </div>
                     <div class="product-stock" style="color: ${stockColor};">
                         ${stockTexto}
-                    </div>
-                    <div class="product-actions">
-                        <button class="btn-add-cart" onclick="agregarAlCarrito(event, ${producto.id}, '${producto.nombre}', ${producto.precio})" ${!enStock ? 'disabled' : ''}>
-                            🛒 Agregar
-                        </button>
-                        <button class="btn-whatsapp-buy" onclick="comprarPorWhatsApp(event, '${producto.nombre}', ${producto.precio})">
-                            💬 Comprar
-                        </button>
                     </div>
                 </div>
             </div>
@@ -435,6 +437,111 @@ function actualizarUISesion() {
 // ============================================
 
 function configurarEventos() {
+    // Búsqueda
+    const searchBtn = document.getElementById('search-btn');
+    const searchOverlay = document.getElementById('search-overlay');
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    if (searchBtn) {
+        searchBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!searchOverlay) {
+                window.location.href = '/';
+                return;
+            }
+            searchOverlay.classList.toggle('active');
+            if (searchOverlay.classList.contains('active')) {
+                setTimeout(() => searchInput?.focus(), 100);
+            }
+        });
+    }
+
+    if (searchOverlay) {
+        document.addEventListener('click', (e) => {
+            if (!searchOverlay.contains(e.target) && e.target !== searchBtn && !searchBtn?.contains(e.target)) {
+                searchOverlay.classList.remove('active');
+                if (searchResults) searchResults.innerHTML = '';
+                if (searchInput) searchInput.value = '';
+            }
+        });
+    }
+
+    if (searchForm && searchInput && searchResults) {
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const q = searchInput.value.trim();
+            if (!q) return;
+
+            searchResults.innerHTML = '<div class="search-empty">Buscando...</div>';
+
+            try {
+                const response = await fetch(`/api/productos/buscar?q=${encodeURIComponent(q)}`);
+                const data = await response.json();
+
+                let resultados = data.success && Array.isArray(data.data) ? data.data : [];
+
+                // Fallback: si el endpoint no devolvió resultados, filtrar localmente
+                if (!resultados.length && todosLosProductos.length) {
+                    const term = q.toLowerCase();
+                    resultados = todosLosProductos.filter(p =>
+                        p.nombre.toLowerCase().includes(term) ||
+                        (p.descripcion && p.descripcion.toLowerCase().includes(term))
+                    );
+                }
+
+                if (!resultados.length) {
+                    searchResults.innerHTML = '<div class="search-empty">No se encontraron productos</div>';
+                    return;
+                }
+
+                searchResults.innerHTML = resultados.map(p => `
+                    <div class="search-result-item" onclick="window.location.href='/producto/${p.id}'">
+                        ${p.imagen ? `<img src="${p.imagen}" alt="${p.nombre}" onerror="this.style.display='none'">` : '<div style="width:60px;height:60px;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px;">👟</div>'}
+                        <div class="search-result-info">
+                            <h4>${p.nombre}</h4>
+                            <p>${p.descripcion || 'Calzado en cuero'}</p>
+                        </div>
+                        <div class="search-result-price">${formatCOP(p.precio)}</div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error en búsqueda:', error);
+                // Fallback: intentar filtrar localmente si el API falló
+                if (todosLosProductos.length) {
+                    const term = q.toLowerCase();
+                    const resultados = todosLosProductos.filter(p =>
+                        p.nombre.toLowerCase().includes(term) ||
+                        (p.descripcion && p.descripcion.toLowerCase().includes(term))
+                    );
+                    if (resultados.length) {
+                        searchResults.innerHTML = resultados.map(p => `
+                            <div class="search-result-item" onclick="window.location.href='/producto/${p.id}'">
+                                ${p.imagen ? `<img src="${p.imagen}" alt="${p.nombre}" onerror="this.style.display='none'">` : '<div style="width:60px;height:60px;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px;">👟</div>'}
+                                <div class="search-result-info">
+                                    <h4>${p.nombre}</h4>
+                                    <p>${p.descripcion || 'Calzado en cuero'}</p>
+                                </div>
+                                <div class="search-result-price">${formatCOP(p.precio)}</div>
+                            </div>
+                        `).join('');
+                        return;
+                    }
+                }
+                searchResults.innerHTML = '<div class="search-empty">Error al buscar. Intenta de nuevo.</div>';
+            }
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchOverlay.classList.remove('active');
+                searchResults.innerHTML = '';
+                searchInput.value = '';
+            }
+        });
+    }
+
     // Modal de login
     const loginBtn = document.getElementById('login-btn');
     const loginModal = document.getElementById('login-modal');
